@@ -6,24 +6,28 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class SocketClient {
-    final static String ADDRESS = "127.0.0.1";
-    final static int PORT = 9264;
+public class ServerHandler implements Runnable{
+    private Socket socket;
 
-    public static void main(String[] args){
-        Socket socket = null;
+    public ServerHandler(Socket socket){
+        this.socket = socket;
+    }
+
+    @Override
+    public void run(){
         BufferedReader in = null;
         PrintWriter out = null;
-
-        try{
-            socket = new Socket(ADDRESS, PORT);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(), true);
-
-            //向服务器发送数据
-            out.println("这是一条从客户端发送到服务端的数据");
-            String response = in.readLine();
-            System.out.println("Client : " + response);
+        try {
+            in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+            out = new PrintWriter(this.socket.getOutputStream(), true);
+            String body = null;
+            while (true){
+                body = in.readLine();
+                if(body == null)
+                    break;
+                System.out.println("Server : " + body);
+                out.println("来自服务端的回应");
+            }
         } catch (Exception e){
             e.printStackTrace();
         } finally {
