@@ -9,13 +9,15 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
-public class Server implements Runnable{
+public class Server implements Runnable {
     //1.缓冲区
     private ByteBuffer readBuf = ByteBuffer.allocate(1024);
+
+    private ByteBuffer writeBuf = ByteBuffer.allocate(1024);
     //2.多路复用器
     private Selector selector;
 
-    public Server(int port){
+    public Server(int port) {
         try {
             //1.打开多路复用器
             this.selector = Selector.open();
@@ -27,13 +29,13 @@ public class Server implements Runnable{
             ssc.bind(new InetSocketAddress(port));
             //5.把服务器通道注册到多路复用器上，并且监听阻塞事件
             ssc.register(this.selector, SelectionKey.OP_ACCEPT);
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void run(){
+    public void run() {
         while (true) {
             try {
                 //1.必须让多路复用器开始监听各个通道
@@ -41,24 +43,24 @@ public class Server implements Runnable{
                 //2.返回多路复用器里所有注册的通道key
                 Iterator<SelectionKey> it = this.selector.selectedKeys().iterator();
                 //3.遍历获取的key
-                while (it.hasNext()){
+                while (it.hasNext()) {
                     //4.接收key值
                     SelectionKey key = it.next();
                     //5.从容器中移除已经被选中的key
                     it.remove();
                     //6.验证操作：判断key是否有效
-                    if(key.isValid()){
+                    if (key.isValid()) {
                         //7.如果为阻塞状态
-                        if(key.isAcceptable()){
+                        if (key.isAcceptable()) {
                             this.accept(key);
                         }
                         //8.如果为可读状态
-                        if(key.isReadable()){
+                        if (key.isReadable()) {
                             this.read(key);
                         }
                     }
                 }
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -69,17 +71,17 @@ public class Server implements Runnable{
     /*
      *
      */
-    private void accept(SelectionKey key){
+    private void accept(SelectionKey key) {
         try {
             //1.由于目前是server端，那么一定是server端启动，并且处于阻塞状态，所以获取阻塞状态的key，一定是ServerSocketChannel
-            ServerSocketChannel ssc = (ServerSocketChannel)key.channel();
+            ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
             //2.通过调用accept方法，返回一个具体的客户端连接句柄
             SocketChannel sc = ssc.accept();
             //3.设置客户端通道为非阻塞
             sc.configureBlocking(false);
             //4.设置当前获取的客户端连接句柄为可读状态
             sc.register(this.selector, SelectionKey.OP_READ);
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -88,7 +90,35 @@ public class Server implements Runnable{
     /*
      *
      */
-    private void read(SelectionKey key){
+    private void read(SelectionKey key) {
+        try {
+            //1.对缓冲区进行情况
+            this.readBuf.clear();
+            //2.获取之前注册的socketChannel通道对象
+            SocketChannel sc = (SocketChannel) key.channel();
+            //3.从通道获取数据放入缓冲区
+            int index = sc.read(this.readBuf);
+            if (index == -1) {
+                key.channel().close();
+                key.cancel();
+                return;
+            }
 
+            //读取readBuf数据并打印
+            this.readBuf.flip();
+            byte[] bytes = new byte[this.readBuf.remaining()];
+            this.readBuf.get(bytes);
+
+            String body = new String(bytes).trim();
+            System.out.println("服务器接收数据： " + body);
+
+            //5.写回数据
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void main(String[] args){
+        new Thread(new Server(9642)).start();
     }
 }
