@@ -24,6 +24,7 @@ public class Server  {
          .option(ChannelOption.SO_RCVBUF, 32*1024)
          .childOption(ChannelOption.SO_KEEPALIVE, true)
          .childOption(ChannelOption.SO_SNDBUF, 32*1024)
+         //初始化绑定服务通道
          .childHandler(new ChannelInitializer<SocketChannel>() {
              @Override
              protected void initChannel(SocketChannel sc) throws Exception{

@@ -4,11 +4,9 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class Client {
@@ -27,8 +25,8 @@ public class Client {
             }
          });
 
-        ChannelFuture cf = b.connect("127.0.0.1", 8765);
+        ChannelFuture cf = b.connect("127.0.0.1", 8765).syncUninterruptibly();
 
-        cf.channel().writeAndFlush(Unpooled.copiedBuffer("Hello netty".getBytes()));
+        cf.channel().writeAndFlush(Unpooled.copiedBuffer("胡二狗天天刷抖音".getBytes()));
     }
 }
