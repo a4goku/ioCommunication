@@ -1,4 +1,4 @@
-package com.io.demo.socketDemo.netty;
+package com.io.demo.socketDemo.netty.wrap;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
@@ -27,7 +27,18 @@ public class Client {
 
         ChannelFuture cf = b.connect("127.0.0.1", 8765).syncUninterruptibly();
 
-        cf.channel().writeAndFlush(Unpooled.copiedBuffer("胡二狗天天刷抖音".getBytes()));
+
+        cf.channel().writeAndFlush(Unpooled.copiedBuffer("Hello, netty-1".getBytes()));
+        Thread.sleep(1000);
+
+        cf.channel().writeAndFlush(Unpooled.copiedBuffer("Hello, netty-2".getBytes()));
+        Thread.sleep(1000);
+
+        cf.channel().writeAndFlush(Unpooled.copiedBuffer("Hello, netty-3".getBytes()));
+        Thread.sleep(1000);
+
+        cf.channel().writeAndFlush(Unpooled.copiedBuffer("Hello, netty-4".getBytes()));
+        Thread.sleep(1000);
 
         cf.channel().closeFuture().sync();
         work.shutdownGracefully();
