@@ -1,8 +1,6 @@
-package com.io.demo.socketDemo.netty.wrap;
+package com.io.demo.socketDemo.serial;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -10,7 +8,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 
 public class Server  {
     public static void main(String[] args) throws Exception{
@@ -31,11 +28,8 @@ public class Server  {
          .childHandler(new ChannelInitializer<SocketChannel>() {
              @Override
              protected void initChannel(SocketChannel sc) throws Exception{
-                 //定义特殊字符进行分割
-                 ByteBuf delimiter = Unpooled.copiedBuffer("$_".getBytes());
-
-                 sc.pipeline().addLast(new DelimiterBasedFrameDecoder(1024, delimiter));
                  sc.pipeline().addLast(new ServerHandler());
+
              }
          });
 

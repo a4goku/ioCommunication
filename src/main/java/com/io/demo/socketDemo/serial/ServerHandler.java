@@ -1,4 +1,4 @@
-package com.io.demo.socketDemo.netty.wrap;
+package com.io.demo.socketDemo.serial;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -16,14 +16,18 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf buf;
-        buf = (ByteBuf)msg;
-        byte[] request = new byte[buf.readableBytes()];
-        buf.readBytes(request);
-        String body = new String(request, "utf-8");
-        System.out.println("服务器： " + body);
+        try {
+            buf = (ByteBuf)msg;
+            byte[] request = new byte[buf.readableBytes()];
+            buf.readBytes(request);
+            String body = new String(request, "utf-8");
+            System.out.println("服务器： " + body);
 
-        String response = "我是返回的数据$_";
-        ctx.writeAndFlush(Unpooled.copiedBuffer(response.getBytes()));
+            String response = "我是返回的数据";
+            ctx.writeAndFlush(Unpooled.copiedBuffer(response.getBytes()));
+        } finally {
+            ReferenceCountUtil.release(msg);
+        }
 
     }
 
