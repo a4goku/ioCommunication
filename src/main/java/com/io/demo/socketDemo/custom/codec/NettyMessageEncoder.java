@@ -30,6 +30,12 @@ public class NettyMessageEncoder extends MessageToByteEncoder<NettyMessage> {
         if(body != null){
             //使用MarshalingEncoder
             this.marshallerEncoder.encode(body, sendBuf);
+        } else{
+            //如果没有数据 进行补位 为了方便后续的decoder操作
+            sendBuf.writeInt(0);
         }
+
+        //最后要获取整个数据包的总长度，header+body进行对header length的设置
+        sendBuf.setIndex(4, sendBuf.readableBytes() - 8);
     }
 }

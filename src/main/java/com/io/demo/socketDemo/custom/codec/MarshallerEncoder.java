@@ -16,14 +16,20 @@ public class MarshallerEncoder {
     }
 
     public void encode(Object body, ByteBuf out) throws IOException{
-        int pos = out.writerIndex();
-        //占位
-        out.writeBytes(LENGTH_PLACEHOLDER);
-        ChannelBufferByteOutput output = new ChannelBufferByteOutput(out);
-        marshaller.start(output);
-        marshaller.writeObject(body);
-        marshaller.finish();;
 
-        out.setInt(pos, out.writerIndex() - pos - 4);
+        try {
+            int pos = out.writerIndex();
+            //占位
+            out.writeBytes(LENGTH_PLACEHOLDER);
+            ChannelBufferByteOutput output = new ChannelBufferByteOutput(out);
+            marshaller.start(output);
+            marshaller.writeObject(body);
+            marshaller.finish();;
+
+            out.setInt(pos, out.writerIndex() - pos - 4);
+        } finally {
+            marshaller.finish();
+        }
+
     }
 }
