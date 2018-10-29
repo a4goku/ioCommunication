@@ -39,7 +39,7 @@ public class Client {
 
         Channel c = cf.channel();
 
-        for(int i = 0; i < 1; i++){
+        for(int i = 0; i < 100; i++){
             NettyMessage message = new NettyMessage();
             Header header = new Header();
             header.setSessionID(1001L);

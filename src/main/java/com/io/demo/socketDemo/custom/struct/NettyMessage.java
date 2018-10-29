@@ -20,7 +20,8 @@ public final class NettyMessage {
         this.body = body;
     }
 
-
-
-
+    @Override
+    public String toString(){
+        return "NettyMessage [header = " + header + "]";
+    }
 }

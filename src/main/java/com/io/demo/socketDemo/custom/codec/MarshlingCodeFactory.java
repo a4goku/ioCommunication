@@ -15,10 +15,12 @@ public class MarshlingCodeFactory {
     }
 
     public static Unmarshaller buildUnMarshaller() throws IOException{
-        final MarshallerFactory marshallerFactory = Marshalling.getProvidedMarshallerFactory("serial");
+        final MarshallerFactory marshallerFactory = Marshalling
+                .getProvidedMarshallerFactory("serial");
         final MarshallingConfiguration configuration = new MarshallingConfiguration();
         configuration.setVersion(5);
-        Unmarshaller unmarshaller = marshallerFactory.createUnmarshaller(configuration);
+        final Unmarshaller unmarshaller = marshallerFactory
+                .createUnmarshaller(configuration);
         return unmarshaller;
     }
 }
