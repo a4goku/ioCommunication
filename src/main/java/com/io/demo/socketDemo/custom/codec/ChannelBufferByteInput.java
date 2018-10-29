@@ -1,11 +1,11 @@
 package com.io.demo.socketDemo.custom.codec;
 
 import io.netty.buffer.ByteBuf;
-import org.jboss.marshalling.ByteOutput;
+import org.jboss.marshalling.ByteInput;
 
 import java.io.IOException;
 
-public class ChannelBufferByteInput implements ByteOutput {
+public class ChannelBufferByteInput implements ByteInput {
     private ByteBuf buffer;
 
     public ChannelBufferByteInput(ByteBuf buffer){
@@ -18,23 +18,27 @@ public class ChannelBufferByteInput implements ByteOutput {
     }
 
     @Override
-    public void flush() throws IOException{
-
+    public int read() throws IOException{
+        return 1;
     }
 
     @Override
-    public void write(int b) throws IOException{
-        buffer.writeByte(b);
+    public int read(byte[] var1) throws IOException{
+        return 1;
     }
 
     @Override
-    public void write(byte[] bytes) throws IOException{
-        buffer.writeBytes(bytes);
+    public int read(byte[] var1, int var2, int var3) throws IOException{
+        return 1;
     }
 
     @Override
-    public void write(byte[] bytes, int srcIndex, int length) throws IOException{
-        buffer.writeBytes(bytes, srcIndex, length);
+    public int available() throws IOException{
+        return 1;
+    }
+    @Override
+    public long skip(long var1) throws IOException{
+        return 1l;
     }
 
     ByteBuf getBuffer(){

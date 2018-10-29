@@ -36,6 +36,6 @@ public class NettyMessageEncoder extends MessageToByteEncoder<NettyMessage> {
         }
 
         //最后要获取整个数据包的总长度，header+body进行对header length的设置
-        sendBuf.setIndex(4, sendBuf.readableBytes() - 8);
+        sendBuf.setInt(4, sendBuf.readableBytes() - 8);
     }
 }

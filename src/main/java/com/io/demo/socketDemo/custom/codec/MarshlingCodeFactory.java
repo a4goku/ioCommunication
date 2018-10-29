@@ -14,7 +14,7 @@ public class MarshlingCodeFactory {
         return marshaller;
     }
 
-    public static Unmarshaller buildUmMarshaller() throws IOException{
+    public static Unmarshaller buildUnMarshaller() throws IOException{
         final MarshallerFactory marshallerFactory = Marshalling.getProvidedMarshallerFactory("serial");
         final MarshallingConfiguration configuration = new MarshallingConfiguration();
         configuration.setVersion(5);

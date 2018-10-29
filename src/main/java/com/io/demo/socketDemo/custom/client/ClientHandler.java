@@ -18,7 +18,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception{
-        System.err.println("----------客户端数据读异常------------");
-
+        System.err.println("-----------客户端数据异常---------");
+        ctx.close();
     }
 }
