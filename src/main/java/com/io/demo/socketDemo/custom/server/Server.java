@@ -2,7 +2,6 @@ package com.io.demo.socketDemo.custom.server;
 
 import com.io.demo.socketDemo.custom.codec.NettyMessageDecoder;
 import com.io.demo.socketDemo.custom.codec.NettyMessageEncoder;
-import com.io.demo.socketDemo.netty.ServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
