@@ -2,12 +2,8 @@ package com.io.demo.socketDemo.custom.server;
 
 import com.io.demo.socketDemo.custom.struct.Header;
 import com.io.demo.socketDemo.custom.struct.NettyMessage;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-
-import java.io.IOException;
 
 public class ServerHandler extends ChannelInboundHandlerAdapter {
     @Override
@@ -26,8 +22,8 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         header.setPriority((byte)2);
         header.setType((byte)2);
         message.setHeader(header);
-        message.setBody("我是响应数据-----" + response.getBody());
-        ctx.writeAndFlush(response);
+        message.setBody("我是响应数据-----" + message.getBody());
+        ctx.writeAndFlush(message);
     }
 
     @Override
