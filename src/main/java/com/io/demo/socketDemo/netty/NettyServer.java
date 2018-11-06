@@ -9,7 +9,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-public class Server  {
+public class NettyServer {
     public static void main(String[] args) throws Exception{
         //1.用于对接受客户端连接的线程工作组
         EventLoopGroup boss = new NioEventLoopGroup();
@@ -28,7 +28,7 @@ public class Server  {
          .childHandler(new ChannelInitializer<SocketChannel>() {
              @Override
              protected void initChannel(SocketChannel sc) throws Exception{
-                 sc.pipeline().addLast(new ServerHandler());
+                 sc.pipeline().addLast(new NettyServerHandler());
 
              }
          });

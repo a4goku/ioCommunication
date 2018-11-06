@@ -9,7 +9,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-public class Client {
+public class NettyClient {
     public static void main(String[] args) throws Exception{
         //2.用于对接受客户端连续读写操作的线程工作组
         EventLoopGroup work = new NioEventLoopGroup();
@@ -20,7 +20,7 @@ public class Client {
          .handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel sc) throws Exception{
-                sc.pipeline().addLast(new ClientHandler());
+                sc.pipeline().addLast(new NettyClientHandler());
 
             }
          });

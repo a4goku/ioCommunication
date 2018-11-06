@@ -7,7 +7,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 
 
-public class ServerHandler extends ChannelInboundHandlerAdapter {
+public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception{
          System.err.println("-----------通道激活----------");
